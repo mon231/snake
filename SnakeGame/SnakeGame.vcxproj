@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.hpp" />
     <ClInclude Include="Direction.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameRunner.hpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="Snake.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameRunner.cpp" />
     <ClCompile Include="Point.cpp" />
