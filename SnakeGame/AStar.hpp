@@ -5,34 +5,26 @@
 */
 
 #pragma once
+#include "Point.hpp"
 
-#include <vector>
-#include <functional>
 #include <set>
+#include <vector>
+#include <optional>
+#include <functional>
 
 namespace AStar
 {
-    struct Vec2i
-    {
-        int x, y;
-
-        bool operator==(const Vec2i& coordinates_);
-        friend Vec2i operator+(const AStar::Vec2i& left_, const AStar::Vec2i& right_) {
-            return{ left_.x + right_.x, left_.y + right_.y };
-        }
-    };
-
     using uint = unsigned int;
-    using HeuristicFunction = std::function<uint(Vec2i, Vec2i)>;
-    using CoordinateList = std::vector<Vec2i>;
+    using HeuristicFunction = std::function<uint(Point, Point)>;
+    using CoordinateList = std::vector<Point>;
 
     struct Node
     {
         uint G, H;
-        Vec2i coordinates;
+        Point coordinates;
         Node* parent;
 
-        Node(Vec2i coord_, Node* parent_ = nullptr);
+        Node(Point coord_, Node* parent_ = nullptr);
         uint getScore();
     };
 
@@ -40,34 +32,35 @@ namespace AStar
 
     class Generator
     {
-        bool detectCollision(Vec2i coordinates_);
-        Node* findNodeOnList(NodeSet& nodes_, Vec2i coordinates_);
+        bool detectCollision(Point coordinates_);
+        Node* findNodeOnList(NodeSet& nodes_, Point coordinates_);
         void releaseNodes(NodeSet& nodes_);
 
     public:
-        Generator();
-        void setWorldSize(Vec2i worldSize_);
+        Generator(uint32_t world_width, uint32_t world_height);
+        void setWorldSize(Point worldSize_);
         void setDiagonalMovement(bool enable_);
         void setHeuristic(HeuristicFunction heuristic_);
-        CoordinateList findPath(Vec2i source_, Vec2i target_);
-        void addCollision(Vec2i coordinates_);
-        void removeCollision(Vec2i coordinates_);
+        std::optional<CoordinateList> findPath(const Point& source_, const Point& target_);
+        std::optional<std::vector<Direction>> findPathDirections(const Point& source_, const Point& target_);
+        void addCollision(Point coordinates_);
+        void removeCollision(Point coordinates_);
         void clearCollisions();
 
     private:
         HeuristicFunction heuristic;
         CoordinateList direction, walls;
-        Vec2i worldSize;
+        Point worldSize;
         uint directions;
     };
 
     class Heuristic
     {
-        static Vec2i getDelta(Vec2i source_, Vec2i target_);
+        static Point getDelta(Point source_, Point target_);
 
     public:
-        static uint manhattan(Vec2i source_, Vec2i target_);
-        static uint euclidean(Vec2i source_, Vec2i target_);
-        static uint octagonal(Vec2i source_, Vec2i target_);
+        static uint manhattan(Point source_, Point target_);
+        static uint euclidean(Point source_, Point target_);
+        static uint octagonal(Point source_, Point target_);
     };
 }

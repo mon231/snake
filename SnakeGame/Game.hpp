@@ -32,10 +32,12 @@ public:
 public:
 	uint32_t get_score() const;
 	GameState perform_next_screen();
-	void set_head_direction(Direction head_direction);
-
 	Point get_apple_position() const;
+
+	Point get_snake_head() const;
+	Point get_snake_tail() const;
 	std::deque<Point> get_snake_points() const;
+	void set_head_direction(Direction head_direction);
 
 public:
 	static Game generate_game(uint32_t board_scale_rate);

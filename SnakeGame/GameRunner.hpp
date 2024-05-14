@@ -3,12 +3,20 @@
 #include "Game.hpp"
 #include <functional>
 
-using MoveDirectionGetter = std::function<Direction()>;
-using FinalScoreHandler = std::function<void(GameState game_end_reason, uint32_t final_score)>;
-using PreFrameHandler = std::function<void(const std::deque<Point>& snake_positions, const Point& apple_position)>;
+class GameRunner
+{
+public:
+	explicit GameRunner(uint32_t board_scale_rate);
+	~GameRunner() = default;
 
-void play_game(
-	const uint32_t board_scale_rate,
-	const PreFrameHandler& pre_frame_handler,
-	const MoveDirectionGetter& move_direction_generator,
-	const FinalScoreHandler& final_score_handler);
+public:
+	void play_game();
+
+protected:
+	virtual void handle_game_over() = 0;
+	virtual void prepare_to_next_frame() = 0;
+	virtual Direction get_move_direction() = 0;
+
+protected:
+	Game _game;
+};

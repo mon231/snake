@@ -3,7 +3,7 @@
 #include <ctime>
 #include <cstdlib>
 
-uint32_t randint(const uint32_t min, const uint32_t max)
+uint32_t randint(const uint32_t min_inclusive, const uint32_t max_exclusive)
 {
 	static bool is_random_seed_initialized = false;
 
@@ -13,5 +13,5 @@ uint32_t randint(const uint32_t min, const uint32_t max)
 		is_random_seed_initialized = true;
 	}
 
-	return min + (std::rand() % (max - min + 1));
+	return min_inclusive + (std::rand() % (max_exclusive - min_inclusive));
 }

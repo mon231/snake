@@ -111,6 +111,16 @@ uint32_t Game::get_score() const
 	return _snake.get_points_count();
 }
 
+Point Game::get_snake_head() const
+{
+	return _snake.get_head_position();
+}
+
+Point Game::get_snake_tail() const
+{
+	return _snake.get_tail_position();
+}
+
 Point Game::get_apple_position() const
 {
 	return _apple_position;

@@ -1,10 +1,5 @@
 #include "Point.hpp"
-
-Point::Point(const int32_t x, const int32_t y):
-	_x(x),
-	_y(y)
-{
-}
+#include <stdexcept>
 
 int32_t Point::get_x() const
 {
@@ -45,4 +40,47 @@ bool Point::operator==(const Point& other) const
 bool Point::operator!=(const Point& other) const
 {
 	return !(*this == other);
+}
+
+Point Point::get_vector_from_direction(Direction direction)
+{
+	switch (direction)
+	{
+	case Direction::UP:
+		return get_up_vector();
+
+	case Direction::DOWN:
+		return get_down_vector();
+
+	case Direction::LEFT:
+		return get_left_vector();
+
+	case Direction::RIGHT:
+		return get_right_vector();
+
+	default:
+		throw std::runtime_error("Invalid direction with no vector");
+	}
+}
+
+Direction Point::get_direction_from_vector(const Point& vector)
+{
+	if (vector == get_up_vector())
+	{
+		return Direction::UP;
+	}
+	else if (vector == get_down_vector())
+	{
+		return Direction::DOWN;
+	}
+	else if (vector == get_left_vector())
+	{
+		return Direction::LEFT;
+	}
+	else if (vector == get_right_vector())
+	{
+		return Direction::RIGHT;
+	}
+
+	throw std::runtime_error("Invalid vector with no direction");
 }
